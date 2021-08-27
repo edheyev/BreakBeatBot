@@ -1,11 +1,7 @@
 import random, os
 from pydub import AudioSegment
 
-def my_function():
-  print('Time to mek beat');
-
-
-def genOrder(bars):
+def genOrder(bars): # makes 2 sequences of length bars * 16, seq = order and eseq = effects
     seq = []#int numbers to choose file names must be 0-15
     eseq = []# types to add effects
     seqLen = 15 # breaks are cut into 16 parts
@@ -34,24 +30,20 @@ def genOrder(bars):
 
 
 def makeBeat(seq, eseq): # converts sequence into sound by choosing folders and files
-
-      print('Time to mek beat');
       speedFactor = 2.75
       print(seq);
       print(eseq);
       #get all sample folders
       breakFolders = fn("samples")
       #print(breakFolders)
-      sFolder =  breakFolders[random.randint(0,len(breakFolders))-1]
+      sFolder =  breakFolders[random.randint(0,len(breakFolders))-1] # choose random sample folder
       path = "samples/" + sFolder
       samples = fn(path)
-      sPath = "samples/" + sFolder + "/" + samples[seq[0]];
-      print(sPath)
+      sPath = "samples/" + sFolder + "/" + samples[seq[0]];# initial sample
+      combined_sounds = AudioSegment.from_wav(sPath) # manually initialise sound
 
-
-      combined_sounds = AudioSegment.from_wav(sPath)
-      for i in range(len(seq)-1):
-          if(random.uniform(0, 1)<0.01): # change folders?
+      for i in range(len(seq)-1): # loop over sequence and choose audio files to splice
+          if(random.uniform(0, 1)<0.01): # change sample folders - unlikely
               sFolder =  breakFolders[random.randint(0,len(breakFolders))-1]
               print(sFolder)
           sPath = "samples/" + sFolder + "/" + samples[seq[i]];
@@ -71,9 +63,9 @@ def makeBeat(seq, eseq): # converts sequence into sound by choosing folders and 
 
               #thisSound = speed_change(thisSound, speedFactor)
 
-          combined_sounds = combined_sounds + thisSound
-      fast_sound = speed_change(combined_sounds, speedFactor)
-      fast_sound.export("joinedFile.wav", format="wav")
+          combined_sounds = combined_sounds + thisSound # combine samples
+      fast_sound = speed_change(combined_sounds, speedFactor)# change speed for DnB
+      fast_sound.export("joinedFile.wav", format="wav")#export as wav
 
 
 
