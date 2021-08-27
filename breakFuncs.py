@@ -23,6 +23,8 @@ def genOrder(bars): # makes 2 sequences of length bars * 16, seq = order and ese
                 eseq.append("fast")
             elif effect == 2:
                 eseq.append("stut")
+            elif effect == 3:
+                eseq.append("shot") # one shot
             else:
                 eseq.append("_")
 
@@ -60,6 +62,13 @@ def makeBeat(seq, eseq): # converts sequence into sound by choosing folders and 
               combined_sounds = combined_sounds + thisSound
               combined_sounds = combined_sounds + thisSound
               combined_sounds = combined_sounds + thisSound
+          elif(eseq[i] == "shot"):
+              tpath = "OneShots/"
+              tsamples = fn(tpath)
+              tsPath = "OneShots/"+ tsamples[0]
+              thisSound = AudioSegment.from_wav(tsPath)
+              i=i+1
+
 
               #thisSound = speed_change(thisSound, speedFactor)
 
